@@ -4,9 +4,10 @@ import styles from "./header.module.css";
 interface HeaderProps {
   addNode: (value: number) => void;
   removeNode: (value: number) => void;
+  clearTree: () => void;
 }
 
-export const Header = ({ addNode, removeNode }: HeaderProps) => {
+export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
   const [addInputValue, setAddInputValue] = useState("");
   const [removeInputValue, setRemoveInputValue] = useState("");
 
@@ -42,6 +43,9 @@ export const Header = ({ addNode, removeNode }: HeaderProps) => {
       <button onClick={handleAdd}>Add</button>
       <input value={removeInputValue} onChange={handleRemoveInputChange} />
       <button onClick={handleRemove}>Remove</button>
+      <button onClick={clearTree} style={{ marginLeft: 8 }}>
+        Clear
+      </button>
     </header>
   );
 };

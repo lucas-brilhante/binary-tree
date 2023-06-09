@@ -9,14 +9,12 @@ export const useConvertTreeToGraph = (tree: TreeNode) => {
     const { value, leftNode, rightNode } = node;
     const leftChild = graphData(leftNode);
     const rightChild = graphData(rightNode);
-    const children = [leftChild, rightChild]
-      .map((children) => {
-        if (!children) {
-          return { name: "null" };
-        }
-        return children;
-      })
-      .filter(Boolean) as RawNodeDatum[];
+    const children = [leftChild, rightChild].map((children) => {
+      if (!children) {
+        return { name: "null" };
+      }
+      return children;
+    }) as RawNodeDatum[];
     const obj = {
       name: String(value),
       ...(children.length > 0 && { children: children }),

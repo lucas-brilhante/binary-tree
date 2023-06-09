@@ -84,5 +84,9 @@ export const useBinaryTree = (props?: useBinaryTreeParams) => {
     }
   };
 
-  return { tree, addNode, removeNode };
+  const clearTree = () =>{
+    setTree(undefined);
+  }
+
+  return { tree, addNode, removeNode, clearTree };
 };

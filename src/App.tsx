@@ -34,12 +34,14 @@ const dummy = {
 };
 
 function App() {
-  const { tree, addNode, removeNode } = useBinaryTree({initialState: dummy});
+  const { tree, addNode, removeNode, clearTree } = useBinaryTree({
+    initialState: dummy,
+  });
   console.log("tree", tree);
 
   return (
     <div style={{ minHeight: "100vh" }}>
-      <Header addNode={addNode} removeNode={removeNode} />
+      <Header addNode={addNode} removeNode={removeNode} clearTree={clearTree} />
       <div
         id="treeWrapper"
         style={{ display: "flex", flex: 1, height: 500, marginTop: 24 }}

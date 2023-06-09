@@ -18,6 +18,7 @@ export const Graph = ({ tree }: GraphProps) => {
       data={data}
       collapsible={false}
       orientation="vertical"
+      nodeSize={{ x: 80, y: 60 }}
       translate={{
         x: container ? container.clientWidth / 2 : window.innerWidth / 2,
         y: 30,
