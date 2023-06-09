@@ -16,12 +16,28 @@ export const Graph = ({ tree }: GraphProps) => {
   return (
     <Tree
       data={data}
-      branchNodeClassName={styles.node}
       collapsible={false}
       orientation="vertical"
       translate={{
         x: container ? container.clientWidth / 2 : window.innerWidth / 2,
         y: 30,
+      }}
+      pathClassFunc={(path) => {
+        if (path.target.data.name === "null") {
+          return styles.invisible;
+        }
+        return undefined;
+      }}
+      renderCustomNodeElement={({ nodeDatum, toggleNode }) => {
+        if (nodeDatum.name === "null") return undefined;
+        return (
+          <g>
+            <circle cx="0" cy="10" r="10" fill="blue" onClick={toggleNode} />
+            <text fill="blue" strokeWidth="1" x="20">
+              {nodeDatum.name}
+            </text>
+          </g>
+        );
       }}
     />
   );

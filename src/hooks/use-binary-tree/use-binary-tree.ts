@@ -36,5 +36,53 @@ export const useBinaryTree = (props?: useBinaryTreeParams) => {
     setTree(treeClone);
   };
 
-  return { tree, addNode };
+  const removeSindleNode = (node: TreeNode) => {
+    if (!node.leftNode && !node.rightNode) {
+      return undefined;
+    }
+
+    let newNode = undefined;
+
+    if(node.leftNode){
+      newNode = node.leftNode;
+      while(newNode.rightNode !== undefined){
+        newNode = newNode.rightNode
+      }
+
+      newNode.rightNode = node.rightNode;
+      return newNode;
+    }
+  };
+
+  const removeNode = (value: number) => {
+    const treeClone = tree ? { ...tree } : undefined;
+
+    if (!treeClone) {
+      return;
+    }
+
+    if (value === treeClone.value) {
+      const newTree = removeSindleNode(treeClone);
+      setTree(newTree);
+      return;
+    }
+
+    let currentNode: TreeNode | undefined = treeClone;
+
+    while (currentNode !== undefined) {
+      if (value === currentNode.value) {
+        setTree(undefined);
+        break;
+      }
+
+      if (value > currentNode.value) {
+        currentNode = currentNode.rightNode;
+        continue;
+      }
+
+      currentNode = currentNode.leftNode;
+    }
+  };
+
+  return { tree, addNode, removeNode };
 };

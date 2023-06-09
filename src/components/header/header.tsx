@@ -3,26 +3,45 @@ import styles from "./header.module.css";
 
 interface HeaderProps {
   addNode: (value: number) => void;
+  removeNode: (value: number) => void;
 }
 
-export const Header = ({ addNode }: HeaderProps) => {
-  const [inputValue, setInputValue] = useState("");
+export const Header = ({ addNode, removeNode }: HeaderProps) => {
+  const [addInputValue, setAddInputValue] = useState("");
+  const [removeInputValue, setRemoveInputValue] = useState("");
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleAddInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
     const { value } = e.target;
-    setInputValue(value);
+    setAddInputValue(value);
+  };
+
+  const handleRemoveInputChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    const { value } = e.target;
+    setRemoveInputValue(value);
   };
 
   const handleAdd = () => {
-    const valueAsNumber = Number(inputValue);
+    const valueAsNumber = Number(addInputValue);
     addNode(valueAsNumber);
-    setInputValue("");
+    setAddInputValue("");
+  };
+
+  const handleRemove = () => {
+    const valueAsNumber = Number(removeInputValue);
+    removeNode(valueAsNumber);
+    setRemoveInputValue("");
   };
 
   return (
     <header className={styles.header}>
-      <input value={inputValue} onChange={handleInputChange} />
-      <button onClick={handleAdd}>Adicionar</button>
+      <input value={addInputValue} onChange={handleAddInputChange} />
+      <button onClick={handleAdd}>Add</button>
+      <input value={removeInputValue} onChange={handleRemoveInputChange} />
+      <button onClick={handleRemove}>Remove</button>
     </header>
   );
 };
