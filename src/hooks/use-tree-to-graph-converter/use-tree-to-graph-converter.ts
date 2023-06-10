@@ -2,7 +2,7 @@ import { RawNodeDatum } from "react-d3-tree";
 import { TreeNode } from "../use-binary-tree";
 import type { UseConvertTreeToGraphReturn } from "./types";
 
-export const useConvertTreeToGraph = (tree: TreeNode) => {
+export const useTreeToGraphConverter = (tree: TreeNode) => {
   const graphData = (node?: TreeNode): UseConvertTreeToGraphReturn => {
     if (!node) return undefined;
 

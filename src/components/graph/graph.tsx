@@ -2,7 +2,7 @@
 import Tree from "react-d3-tree";
 import { Box, Center, Text } from "@chakra-ui/react";
 import { MaxWidthLimiter } from "../max-width-limiter";
-import { useConvertTreeToGraph } from "../../hooks/use-convert-tree-to-graph";
+import { useTreeToGraphConverter } from "../../hooks/use-tree-to-graph-converter";
 import styles from "./graph.module.css";
 
 interface GraphProps {
@@ -10,7 +10,7 @@ interface GraphProps {
 }
 
 export const Graph = ({ tree }: GraphProps) => {
-  const data = useConvertTreeToGraph(tree);
+  const data = useTreeToGraphConverter(tree);
   const container = document.getElementById("treeWrapper");
 
   if (!data)
