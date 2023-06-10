@@ -5,7 +5,11 @@ import type { TreeNode, TreeSnapshot } from "./types";
 export const useBinaryTree = () => {
   const [treeSnapshots, setTreeSnapshots] = useState<TreeSnapshot[]>([]);
 
-  const addNode = (value: number, snapshotIndex: number) => {
+  const addNode = (value: number | undefined, snapshotIndex: number) => {
+    if (!value) {
+      throw new Error("Invalid Input!");
+    }
+
     const newSnapshots = treeSnapshots.slice(0, snapshotIndex + 1);
     const selectedSnapshot = treeSnapshots[snapshotIndex];
     const snapshotId = snapshotIndex + 1;
@@ -100,7 +104,14 @@ export const useBinaryTree = () => {
     return newTree;
   };
 
-  const removeNodeByValue = (value: number, snapshotIndex: number) => {
+  const removeNodeByValue = (
+    value: number | undefined,
+    snapshotIndex: number
+  ) => {
+    if (!value) {
+      throw new Error("Invalid Input!");
+    }
+
     const newSnapshots = treeSnapshots.slice(0, snapshotIndex + 1);
     const selectedSnapshot = treeSnapshots[snapshotIndex];
     const snapshotId = snapshotIndex + 1;
@@ -108,11 +119,7 @@ export const useBinaryTree = () => {
       ? _.cloneDeep(selectedSnapshot.tree)
       : undefined;
 
-    if (!treeClone) {
-      return;
-    }
-
-    if (value === treeClone.value) {
+    if (treeClone && value === treeClone.value) {
       const newTree = removeNode(treeClone);
       const newSnapshot: TreeSnapshot = {
         id: snapshotId,
@@ -141,6 +148,10 @@ export const useBinaryTree = () => {
         break;
       }
       currentNode = currentNode.leftNode;
+    }
+
+    if (!currentNode) {
+      throw new Error("Value not found!");
     }
 
     const newSnapshot: TreeSnapshot = {

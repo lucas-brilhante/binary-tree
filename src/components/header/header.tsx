@@ -1,5 +1,5 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Text, Button, Stack, Spacer } from "@chakra-ui/react";
+import { Text, Button, Stack, Spacer, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { NumberInput } from "../number-input";
 
@@ -10,19 +10,44 @@ interface HeaderProps {
 }
 
 export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
+  const toast = useToast();
   const [addInputValue, setAddInputValue] = useState<number>();
   const [removeInputValue, setRemoveInputValue] = useState<number>();
 
   const handleAdd = () => {
-    const valueAsNumber = Number(addInputValue);
-    addNode(valueAsNumber);
-    setAddInputValue(undefined);
+    try {
+      const valueAsNumber = Number(addInputValue);
+      addNode(valueAsNumber);
+      setAddInputValue(undefined);
+    } catch (error) {
+      const err = error as Error;
+      toast({
+        title: err.name,
+        description: err.message,
+        position: "top",
+        status: "error",
+        duration: 1000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleRemove = () => {
-    const valueAsNumber = Number(removeInputValue);
-    removeNode(valueAsNumber);
-    setRemoveInputValue(undefined);
+    try {
+      const valueAsNumber = Number(removeInputValue);
+      removeNode(valueAsNumber);
+      setRemoveInputValue(undefined);
+    } catch (error) {
+      const err = error as Error;
+      toast({
+        title: err.name,
+        description: err.message,
+        position: "top",
+        status: "error",
+        duration: 1000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
