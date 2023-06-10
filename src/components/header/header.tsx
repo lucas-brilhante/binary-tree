@@ -1,5 +1,6 @@
+import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { Text, Button, Input, Stack, Spacer } from "@chakra-ui/react";
 import { useState } from "react";
-import styles from "./header.module.css";
 
 interface HeaderProps {
   addNode: (value: number) => void;
@@ -38,14 +39,56 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
   };
 
   return (
-    <header className={styles.header}>
-      <input value={addInputValue} onChange={handleAddInputChange} />
-      <button onClick={handleAdd}>Add</button>
-      <input value={removeInputValue} onChange={handleRemoveInputChange} />
-      <button onClick={handleRemove}>Remove</button>
-      <button onClick={clearTree} style={{ marginLeft: 8 }}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={4}
+      background="blue.400"
+      height="16"
+      width="100%"
+      paddingX="4"
+    >
+      <Stack direction="column" spacing={4}>
+        <Text
+          fontSize="24"
+          as="b"
+          color="purple.900"
+          textShadow="1px 1px 1px white"
+        >
+          Binary Tree
+        </Text>
+        <Text fontSize="sm" as="sup" color="gray.100">
+          Data Structure
+        </Text>
+      </Stack>
+      <Spacer />
+      <Stack direction="row" spacing={1}>
+        <Input
+          width="48"
+          value={addInputValue}
+          onChange={handleAddInputChange}
+          placeholder="Enter with a number..."
+          background="white"
+        />
+        <Button onClick={handleAdd} leftIcon={<AddIcon />}>
+          Add
+        </Button>
+      </Stack>
+      <Stack direction="row" spacing={1}>
+        <Input
+          width="48"
+          value={removeInputValue}
+          onChange={handleRemoveInputChange}
+          placeholder="Enter with a number..."
+          background="white"
+        />
+        <Button onClick={handleRemove} size="md" leftIcon={<DeleteIcon />}>
+          Remove
+        </Button>
+      </Stack>
+      <Button onClick={clearTree} size="md" marginLeft="4" colorScheme="red">
         Clear
-      </button>
-    </header>
+      </Button>
+    </Stack>
   );
 };
