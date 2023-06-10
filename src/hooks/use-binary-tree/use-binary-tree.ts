@@ -1,16 +1,28 @@
-// @ts-nocheck
 import { useState } from "react";
 import _ from "lodash";
-import type { TreeNode, useBinaryTreeParams } from "./use-binary-tree.types";
+import type { TreeNode, TreeSnapshot } from "./types";
 
-export const useBinaryTree = (props?: useBinaryTreeParams) => {
-  const [tree, setTree] = useState<TreeNode | undefined>(props?.initialState);
+export const useBinaryTree = () => {
+  const [treeSnapshots, setTreeSnapshots] = useState<TreeSnapshot[]>([]);
 
-  const addNode = (value: number) => {
-    const treeClone = tree ? _.cloneDeep(tree) : undefined;
+  const addNode = (value: number, snapshotIndex: number) => {
+    const newSnapshots = treeSnapshots.slice(0, snapshotIndex + 1);
+    const selectedSnapshot = treeSnapshots[snapshotIndex];
+    const treeClone = selectedSnapshot
+      ? _.cloneDeep(selectedSnapshot.tree)
+      : undefined;
+
+    const snapshotId = snapshotIndex + 1;
 
     if (!treeClone) {
-      setTree({ value });
+      setTreeSnapshots([
+        {
+          id: snapshotId,
+          value,
+          action: "add",
+          tree: { value },
+        },
+      ]);
       return;
     }
 
@@ -35,10 +47,17 @@ export const useBinaryTree = (props?: useBinaryTreeParams) => {
       currentNode = currentNode.leftNode;
     }
 
-    setTree(treeClone);
+    const newSnapshot: TreeSnapshot = {
+      id: snapshotId,
+      value,
+      action: "add",
+      tree: treeClone,
+    };
+
+    setTreeSnapshots([...newSnapshots, newSnapshot]);
   };
 
-  const removeNode = (node: TreeNode) => {
+  /*const removeNode = (node: TreeNode) => {
     if (!node.leftNode && !node.rightNode) {
       return undefined;
     }
@@ -114,11 +133,11 @@ export const useBinaryTree = (props?: useBinaryTreeParams) => {
     }
 
     setTree(treeClone);
-  };
+  }; */
 
   const clearTree = () => {
-    setTree(undefined);
+    setTreeSnapshots([]);
   };
 
-  return { tree, addNode, removeNodeByValue, clearTree };
+  return { treeSnapshots, addNode, clearTree };
 };

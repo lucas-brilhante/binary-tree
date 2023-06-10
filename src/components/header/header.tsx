@@ -3,7 +3,7 @@ import styles from "./header.module.css";
 
 interface HeaderProps {
   addNode: (value: number) => void;
-  removeNode: (value: number) => void;
+  removeNode?: (value: number) => void;
   clearTree: () => void;
 }
 
@@ -33,7 +33,7 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
 
   const handleRemove = () => {
     const valueAsNumber = Number(removeInputValue);
-    removeNode(valueAsNumber);
+    // removeNode(valueAsNumber);
     setRemoveInputValue("");
   };
 
