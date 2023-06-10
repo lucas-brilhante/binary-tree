@@ -12,12 +12,7 @@ import { useRef, useState } from "react";
 import { AlertModal } from "../alert-modal";
 import { MaxWidthLimiter } from "../max-width-limiter";
 import { NumberInput } from "../number-input";
-
-interface HeaderProps {
-  addNode: (value: number) => void;
-  removeNode: (value: number) => void;
-  clearTree: () => void;
-}
+import type { HeaderProps } from "./types";
 
 export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
   const toast = useToast();
