@@ -4,6 +4,7 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import { Graph } from "../../components/graph";
 import { Header } from "../../components/header";
+import { MaxWidthLimiter } from "../../components/max-width-limiter";
 import { TreeSnapshot, useBinaryTree } from "../../hooks/use-binary-tree";
 
 export const Home = () => {
@@ -32,43 +33,45 @@ export const Home = () => {
         clearTree={handleClear}
       />
       <Flex
-        id="snapshotsWrapper"
         padding="2"
-        alignItems="center"
         borderBottom="1px"
         borderColor="gray.300"
         minHeight="65px"
       >
-        <Text marginRight="2">Snapshots:</Text>
-        <Stack direction="row" display="block">
-          {treeSnapshots.map((snapshot, index) => {
-            const isSnapshotSelected = snapshot.id === selectedSnapshot?.id;
-            return (
-              <>
-                <Button
-                  key={snapshot.id}
-                  margin="1"
-                  padding="0"
-                  borderRadius="50%"
-                  border={isSnapshotSelected ? "2px" : undefined}
-                  borderColor="yellow"
-                  boxShadow={
-                    isSnapshotSelected ? "1px 1px 4px black" : undefined
-                  }
-                  colorScheme={snapshot.action === "add" ? "whatsapp" : "red"}
-                  onClick={() => {
-                    setSelectedSnapshot(snapshot);
-                  }}
-                >
-                  {snapshot.value}
-                </Button>
-                {index !== treeSnapshots.length - 1 && (
-                  <ArrowForwardIcon color="blue.700" />
-                )}
-              </>
-            );
-          })}
-        </Stack>
+        <MaxWidthLimiter>
+          <Text marginRight="2" marginTop="3">
+            Snapshots:
+          </Text>
+          <Stack direction="row" display="block">
+            {treeSnapshots.map((snapshot, index) => {
+              const isSnapshotSelected = snapshot.id === selectedSnapshot?.id;
+              return (
+                <>
+                  <Button
+                    key={snapshot.id}
+                    margin="1"
+                    padding="0"
+                    borderRadius="50%"
+                    border={isSnapshotSelected ? "2px" : undefined}
+                    borderColor="yellow"
+                    boxShadow={
+                      isSnapshotSelected ? "1px 1px 4px black" : undefined
+                    }
+                    colorScheme={snapshot.action === "add" ? "whatsapp" : "red"}
+                    onClick={() => {
+                      setSelectedSnapshot(snapshot);
+                    }}
+                  >
+                    {snapshot.value}
+                  </Button>
+                  {index !== treeSnapshots.length - 1 && (
+                    <ArrowForwardIcon color="blue.700" />
+                  )}
+                </>
+              );
+            })}
+          </Stack>
+        </MaxWidthLimiter>
       </Flex>
       <Box id="treeWrapper" flex="1">
         <Graph tree={selectedSnapshot?.tree} />
