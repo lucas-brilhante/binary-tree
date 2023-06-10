@@ -1,6 +1,6 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Text, Button, Stack, Spacer, useToast, Box } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MaxWidthLimiter } from "../max-width-limiter";
 import { NumberInput } from "../number-input";
 
@@ -12,6 +12,8 @@ interface HeaderProps {
 
 export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
   const toast = useToast();
+  const addInputRef = useRef<HTMLInputElement>(null);
+  const removeInputRef = useRef<HTMLInputElement>(null);
   const [addInputValue, setAddInputValue] = useState<number>();
   const [removeInputValue, setRemoveInputValue] = useState<number>();
 
@@ -20,6 +22,7 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
       const valueAsNumber = Number(addInputValue);
       addNode(valueAsNumber);
       setAddInputValue(undefined);
+      addInputRef.current?.focus();
     } catch (error) {
       const err = error as Error;
       toast({
@@ -38,6 +41,7 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
       const valueAsNumber = Number(removeInputValue);
       removeNode(valueAsNumber);
       setRemoveInputValue(undefined);
+      removeInputRef.current?.focus();
     } catch (error) {
       const err = error as Error;
       toast({
@@ -76,13 +80,18 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
           </Stack>
           <Spacer />
           <Stack direction="row" spacing={1}>
-            <NumberInput value={addInputValue} onChange={setAddInputValue} />
+            <NumberInput
+              ref={addInputRef}
+              value={addInputValue}
+              onChange={setAddInputValue}
+            />
             <Button onClick={handleAdd} leftIcon={<AddIcon />}>
               Add
             </Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <NumberInput
+              ref={removeInputRef}
               value={removeInputValue}
               onChange={setRemoveInputValue}
             />
