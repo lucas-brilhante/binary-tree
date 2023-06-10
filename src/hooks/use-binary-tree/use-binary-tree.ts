@@ -8,11 +8,10 @@ export const useBinaryTree = () => {
   const addNode = (value: number, snapshotIndex: number) => {
     const newSnapshots = treeSnapshots.slice(0, snapshotIndex + 1);
     const selectedSnapshot = treeSnapshots[snapshotIndex];
+    const snapshotId = snapshotIndex + 1;
     const treeClone = selectedSnapshot
       ? _.cloneDeep(selectedSnapshot.tree)
       : undefined;
-
-    const snapshotId = snapshotIndex + 1;
 
     if (!treeClone) {
       setTreeSnapshots([
@@ -57,7 +56,7 @@ export const useBinaryTree = () => {
     setTreeSnapshots([...newSnapshots, newSnapshot]);
   };
 
-  /*const removeNode = (node: TreeNode) => {
+  const removeNode = (node: TreeNode) => {
     if (!node.leftNode && !node.rightNode) {
       return undefined;
     }
@@ -97,19 +96,31 @@ export const useBinaryTree = () => {
       newTree.rightNode = currentNode?.rightNode;
     }
 
-    newTree.value = currentNode.value;
+    newTree.value = currentNode!.value;
     return newTree;
   };
 
-  const removeNodeByValue = (value: number) => {
-    const treeClone = tree ? _.cloneDeep(tree) : undefined;
+  const removeNodeByValue = (value: number, snapshotIndex: number) => {
+    const newSnapshots = treeSnapshots.slice(0, snapshotIndex + 1);
+    const selectedSnapshot = treeSnapshots[snapshotIndex];
+    const snapshotId = snapshotIndex + 1;
+    const treeClone = selectedSnapshot
+      ? _.cloneDeep(selectedSnapshot.tree)
+      : undefined;
+
     if (!treeClone) {
       return;
     }
 
     if (value === treeClone.value) {
       const newTree = removeNode(treeClone);
-      setTree(newTree);
+      const newSnapshot: TreeSnapshot = {
+        id: snapshotId,
+        value,
+        action: "delete",
+        tree: newTree,
+      };
+      setTreeSnapshots([...newSnapshots, newSnapshot]);
       return;
     }
 
@@ -132,12 +143,19 @@ export const useBinaryTree = () => {
       currentNode = currentNode.leftNode;
     }
 
-    setTree(treeClone);
-  }; */
+    const newSnapshot: TreeSnapshot = {
+      id: snapshotId,
+      value,
+      action: "delete",
+      tree: treeClone,
+    };
+
+    setTreeSnapshots([...newSnapshots, newSnapshot]);
+  };
 
   const clearTree = () => {
     setTreeSnapshots([]);
   };
 
-  return { treeSnapshots, addNode, clearTree };
+  return { treeSnapshots, addNode, removeNodeByValue, clearTree };
 };

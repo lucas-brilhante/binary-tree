@@ -5,9 +5,15 @@ import { Header } from "./components/header";
 import { TreeSnapshot, useBinaryTree } from "./hooks/use-binary-tree";
 
 function App() {
-  const { treeSnapshots, addNode, /*removeNodeByValue,*/ clearTree } =
+  const { treeSnapshots, addNode, removeNodeByValue, clearTree } =
     useBinaryTree();
   const [selectedSnapshot, setSelectedSnapshot] = useState<TreeSnapshot>();
+  const snapshotIndex = selectedSnapshot ? selectedSnapshot.id : -1;
+
+  const handleClear = () =>{
+    clearTree();
+    setSelectedSnapshot(undefined);
+  }
 
   useEffect(() => {
     // console.log("treeSnapshots", treeSnapshots);
@@ -24,11 +30,9 @@ function App() {
   return (
     <div style={{ minHeight: "100vh" }}>
       <Header
-        addNode={(value) =>
-          addNode(value, selectedSnapshot ? selectedSnapshot.id : -1)
-        }
-        // removeNode={removeNodeByValue}
-        clearTree={clearTree}
+        addNode={(value) => addNode(value, snapshotIndex)}
+        removeNode={(value) => removeNodeByValue(value, snapshotIndex)}
+        clearTree={handleClear}
       />
       <div>
         {treeSnapshots.map((snapshot) => {
