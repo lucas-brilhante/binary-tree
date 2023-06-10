@@ -6,7 +6,7 @@ export const useBinaryTree = () => {
   const [treeSnapshots, setTreeSnapshots] = useState<TreeSnapshot[]>([]);
 
   const addNode = (value: number | undefined, snapshotIndex: number) => {
-    if (!value) {
+    if (!value && value !== 0) {
       throw new Error("Invalid Input!");
     }
 
@@ -108,7 +108,7 @@ export const useBinaryTree = () => {
     value: number | undefined,
     snapshotIndex: number
   ) => {
-    if (!value) {
+    if (!value && value !== 0) {
       throw new Error("Invalid Input!");
     }
 

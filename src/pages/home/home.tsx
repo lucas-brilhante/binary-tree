@@ -52,11 +52,8 @@ export const Home = () => {
                     margin="1"
                     padding="0"
                     borderRadius="50%"
-                    border={isSnapshotSelected ? "2px" : undefined}
-                    borderColor="yellow"
-                    boxShadow={
-                      isSnapshotSelected ? "1px 1px 4px black" : undefined
-                    }
+                    border={isSnapshotSelected ? "4px" : undefined}
+                    color={isSnapshotSelected ? "black" : "white"}
                     colorScheme={snapshot.action === "add" ? "whatsapp" : "red"}
                     onClick={() => {
                       setSelectedSnapshot(snapshot);

@@ -20,7 +20,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       <Input
         ref={ref}
         width="48"
-        value={value || ""}
+        value={value || value === 0 ? value : ""}
         onChange={handleChange}
         placeholder={"Enter with a number..." || placeholder}
         background="white"

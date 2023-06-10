@@ -1,6 +1,15 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Text, Button, Stack, Spacer, useToast, Box } from "@chakra-ui/react";
+import {
+  Text,
+  Button,
+  Stack,
+  Spacer,
+  useToast,
+  Box,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useRef, useState } from "react";
+import { AlertModal } from "../alert-modal";
 import { MaxWidthLimiter } from "../max-width-limiter";
 import { NumberInput } from "../number-input";
 
@@ -12,6 +21,7 @@ interface HeaderProps {
 
 export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const addInputRef = useRef<HTMLInputElement>(null);
   const removeInputRef = useRef<HTMLInputElement>(null);
   const [addInputValue, setAddInputValue] = useState<number>();
@@ -21,8 +31,6 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
     try {
       const valueAsNumber = Number(addInputValue);
       addNode(valueAsNumber);
-      setAddInputValue(undefined);
-      addInputRef.current?.focus();
     } catch (error) {
       const err = error as Error;
       toast({
@@ -33,6 +41,9 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
         duration: 1000,
         isClosable: true,
       });
+    } finally {
+      setAddInputValue(undefined);
+      addInputRef.current?.focus();
     }
   };
 
@@ -40,8 +51,6 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
     try {
       const valueAsNumber = Number(removeInputValue);
       removeNode(valueAsNumber);
-      setRemoveInputValue(undefined);
-      removeInputRef.current?.focus();
     } catch (error) {
       const err = error as Error;
       toast({
@@ -52,6 +61,9 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
         duration: 1000,
         isClosable: true,
       });
+    } finally {
+      setRemoveInputValue(undefined);
+      removeInputRef.current?.focus();
     }
   };
 
@@ -99,16 +111,20 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
               Remove
             </Button>
           </Stack>
-          <Button
-            onClick={clearTree}
-            size="md"
-            marginLeft="4"
-            colorScheme="red"
-          >
+          <Button onClick={onOpen} size="md" marginLeft="4" colorScheme="red">
             Clear
           </Button>
         </Stack>
       </MaxWidthLimiter>
+      <AlertModal
+        onOk={clearTree}
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Clear Tree"
+        message="All your snapshots will be lost. Do you want to continue?"
+        okButtonText="Continue"
+        cancelButtonText="Cancel"
+      />
     </Box>
   );
 };
