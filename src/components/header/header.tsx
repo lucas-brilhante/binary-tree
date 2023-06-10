@@ -76,12 +76,12 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
             <Text
               fontSize="24"
               as="b"
-              color="purple.900"
+              color="purple.800"
               textShadow="1px 1px 1px white"
             >
-              Binary Tree
+              Binary Tree App
             </Text>
-            <Text fontSize="sm" as="sup" color="gray.100">
+            <Text fontSize="sm" as="sup" color="purple.100">
               Data Structure
             </Text>
           </Stack>
