@@ -1,6 +1,7 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Text, Button, Input, Stack, Spacer } from "@chakra-ui/react";
+import { Text, Button, Stack, Spacer } from "@chakra-ui/react";
 import { useState } from "react";
+import { NumberInput } from "../number-input";
 
 interface HeaderProps {
   addNode: (value: number) => void;
@@ -9,33 +10,19 @@ interface HeaderProps {
 }
 
 export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
-  const [addInputValue, setAddInputValue] = useState("");
-  const [removeInputValue, setRemoveInputValue] = useState("");
-
-  const handleAddInputChange: React.ChangeEventHandler<HTMLInputElement> = (
-    e
-  ) => {
-    const { value } = e.target;
-    setAddInputValue(value);
-  };
-
-  const handleRemoveInputChange: React.ChangeEventHandler<HTMLInputElement> = (
-    e
-  ) => {
-    const { value } = e.target;
-    setRemoveInputValue(value);
-  };
+  const [addInputValue, setAddInputValue] = useState<number>();
+  const [removeInputValue, setRemoveInputValue] = useState<number>();
 
   const handleAdd = () => {
     const valueAsNumber = Number(addInputValue);
     addNode(valueAsNumber);
-    setAddInputValue("");
+    setAddInputValue(undefined);
   };
 
   const handleRemove = () => {
     const valueAsNumber = Number(removeInputValue);
     removeNode(valueAsNumber);
-    setRemoveInputValue("");
+    setRemoveInputValue(undefined);
   };
 
   return (
@@ -63,25 +50,13 @@ export const Header = ({ addNode, removeNode, clearTree }: HeaderProps) => {
       </Stack>
       <Spacer />
       <Stack direction="row" spacing={1}>
-        <Input
-          width="48"
-          value={addInputValue}
-          onChange={handleAddInputChange}
-          placeholder="Enter with a number..."
-          background="white"
-        />
+        <NumberInput value={addInputValue} onChange={setAddInputValue} />
         <Button onClick={handleAdd} leftIcon={<AddIcon />}>
           Add
         </Button>
       </Stack>
       <Stack direction="row" spacing={1}>
-        <Input
-          width="48"
-          value={removeInputValue}
-          onChange={handleRemoveInputChange}
-          placeholder="Enter with a number..."
-          background="white"
-        />
+        <NumberInput value={removeInputValue} onChange={setRemoveInputValue} />
         <Button onClick={handleRemove} size="md" leftIcon={<DeleteIcon />}>
           Remove
         </Button>
